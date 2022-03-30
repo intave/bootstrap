@@ -6,4 +6,4 @@ This bukkit plugin will automatically download, store and use the lastest or the
 
 1. Go to https://github.com/intave/bootstrap/releases.
 2. Click on the latest release.
-3. Click on the `IntaveBootstrap-<version>.jar` asset to download the jar file.
+3. Click on the `intavebootstrap-<version>.jar` asset to download the jar file.

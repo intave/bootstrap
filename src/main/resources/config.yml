@@ -1,0 +1,5 @@
+# See the auth-key tab under "settings" on our website
+authkey: ""
+
+# choose between LATEST and STABLE
+version: "STABLE"

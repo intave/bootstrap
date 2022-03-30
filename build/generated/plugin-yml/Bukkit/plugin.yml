@@ -1,0 +1,12 @@
+name: IntaveBootstrap
+version: 0.1.0
+main: de.jpx3.intave.boot.IntaveBootstrap
+author: Jpx3
+prefix: Intave/Boot
+libraries:
+ - com.google.code.gson:gson:2.8.7
+softdepend:
+ - ProtocolLib
+ - ViaVersion
+loadbefore:
+ - Intave

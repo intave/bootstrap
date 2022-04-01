@@ -193,11 +193,12 @@ public final class IntaveBootstrap extends JavaPlugin {
   private void loadJar() {
     try {
       File originalFile = intaveResource.fileStore();
-      if (!runtimeJarDatafolder().mkdirs()) {
+      File runtimeJarDatafolder = runtimeJarDatafolder();
+      if (!runtimeJarDatafolder.exists() && !runtimeJarDatafolder.mkdirs()) {
         throw new IllegalStateException("Failed to create runtime folder");
       }
-      Files.setAttribute(runtimeJarDatafolder().toPath(), "dos:hidden", true);
-      File targetFile = new File(runtimeJarDatafolder(), "intave.jar");
+      Files.setAttribute(runtimeJarDatafolder.toPath(), "dos:hidden", true);
+      File targetFile = new File(runtimeJarDatafolder, "intave.jar");
       copy(originalFile, targetFile);
       intavePlugin = getServer().getPluginManager().loadPlugin(targetFile);
       intavePlugin.onLoad();

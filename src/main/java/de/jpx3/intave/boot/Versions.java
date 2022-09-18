@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public final class Versions {
-  private final static RemoteResource VERSION_RESOURCE = new RemoteResource("https://service.intave.de/versions", "versions", TimeUnit.DAYS.toMillis(1));
+  private final static RemoteResource VERSION_RESOURCE = new RemoteResource("https://"+IntaveBootstrap.primaryServiceDomain()+"/versions", "versions", TimeUnit.DAYS.toMillis(1));
   private final List<Version> content;
 
   private Versions(List<Version> content) {

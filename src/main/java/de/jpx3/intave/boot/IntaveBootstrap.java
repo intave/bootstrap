@@ -124,7 +124,7 @@ public final class IntaveBootstrap extends JavaPlugin {
 
   private CookieManager authenticate(String bootstrapKey) {
     try {
-      URL remoteFileAddress = new URL("https://intave.de/keyauthenticate.php");
+      URL remoteFileAddress = new URL("https://"+primaryServiceDomain()+"/keyauthenticate.php");
       URLConnection connection = remoteFileAddress.openConnection();
       connection.addRequestProperty("User-Agent", "IntaveBootstrap");
       connection.addRequestProperty("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -165,7 +165,7 @@ public final class IntaveBootstrap extends JavaPlugin {
 
   private void downloadIntaveJar(CookieManager cookieManager, String version) {
     try {
-      URL remoteFileAddress = new URL("https://intave.de/download-intave.php");
+      URL remoteFileAddress = new URL("https://"+primaryServiceDomain()+"/download-intave.php");
       URLConnection connection = remoteFileAddress.openConnection();
       connection.addRequestProperty("User-Agent", "IntaveBootstrap");
       connection.addRequestProperty("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -213,13 +213,37 @@ public final class IntaveBootstrap extends JavaPlugin {
   }
 
   private void copy(File source, File dest) throws IOException {
-    try (InputStream is = new FileInputStream(source);
-         OutputStream os = new FileOutputStream(dest)) {
+    try (InputStream is = Files.newInputStream(source.toPath());
+         OutputStream os = Files.newOutputStream(dest.toPath())) {
       byte[] buffer = new byte[1024];
       int length;
       while ((length = is.read(buffer)) != -1) {
         os.write(buffer, 0, length);
       }
+    }
+  }
+
+  private static String SERVICE_DOMAIN = null;
+
+  public static String primaryServiceDomain() {
+    if (SERVICE_DOMAIN != null) {
+      return SERVICE_DOMAIN;
+    }
+    URLConnection con;
+    try {
+      URL url = new URL("https://raw.githubusercontent.com/intave/domains/main/service");
+      con = url.openConnection();
+      con.setConnectTimeout(5000);
+      con.setReadTimeout(5000);
+      con.setUseCaches(false);
+      con.setDefaultUseCaches(false);
+    } catch (Exception exception) {
+      return SERVICE_DOMAIN = "service.intave.de";
+    }
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+      return SERVICE_DOMAIN = reader.readLine();
+    } catch (IOException e) {
+      return SERVICE_DOMAIN = "service.intave.de";
     }
   }
 }
